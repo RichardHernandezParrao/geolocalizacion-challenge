@@ -1,0 +1,17 @@
+{"properties": [
+  {
+    "name": "api.geolocation.url",
+    "type": "java.lang.String",
+    "description": "A description for 'api.geolocation.url'"
+  },
+  {
+    "name": "api.country.url",
+    "type": "java.lang.String",
+    "description": "A description for 'api.country.url'"
+  },
+  {
+    "name": "api.fixer.url",
+    "type": "java.lang.String",
+    "description": "A description for 'api.fixer.url'"
+  }
+]}
