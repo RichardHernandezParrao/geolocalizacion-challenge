@@ -31,3 +31,14 @@ build/
 
 ### VS Code ###
 .vscode/
+
+target/
+*.class
+*.log
+*.jar
+*.war
+*.zip
+*.tar.gz
+*.iml
+.idea/
+*.sql

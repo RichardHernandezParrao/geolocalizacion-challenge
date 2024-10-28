@@ -1,55 +1,76 @@
-Este es un proyecto de ejemplo desarrollado con Spring Boot.
+# Geolocation Service
 
-Requisitos:
-- Java Development Kit (JDK) 11 o superior
-- Maven 3.6.x
+Este proyecto es una aplicación Spring Boot que proporciona servicios de geolocalización y estadísticas relacionadas.
 
-Instrucciones de Ejecución:
+## Requisitos
 
-1. Clona el repositorio:
-   git clone https://github.com/RichardHernandezParrao/TestInclusionCloud.git
+- Java 11 o superior
+- Maven
+- Docker (opcional)
 
-2. Navega al directorio del proyecto:
-   cd TestInclusionCloud
+## Endpoints
 
-3. Compila el proyecto:
-   mvn clean install
-
-4. Ejecuta la aplicación:
-   mvn spring-boot:run
-
-5. Accede a la aplicación:
-   Abre un navegador web y visita http://localhost:8080
-
-6. Ejecutar desde un cliente HTTP:
-
-   - Para realizar una solicitud GET, puedes utilizar una herramienta como cURL o un cliente HTTP como Postman o Insomnia. Por ejemplo:
-
-     - GET: http://localhost:8080/api/modulo/findMax?x=499999993&y=9&n=1000000000
-
-   - Para realizar una solicitud POST, puedes utilizar un cliente HTTP como Postman o Insomnia. Por ejemplo:
-
-     - POST: http://localhost:8080/api/modulo/findMax
-
-       Ejemplo del cuerpo de la solicitud (en formato JSON):
-       {
-         "x": 499999993,
-         "y": 9,
-         "n": 1000000000
-       }
-
-       Ejemplo del cuerpo de la solicitud (en formato XML):
-       <ModuloRequestDTO>
-         <x>499999993</x>
-         <y>9</y>
-         <n>1000000000</n>
-      </ModuloRequestDTO>
+### Geolocalización
 
 
-Configuración Adicional:
-- El archivo de configuración principal se encuentra en src/main/resources/application.properties.
-- Los mensajes de error y validación se encuentran en el archivo src/main/resources/exceptions.properties.
-- Para realizar pruebas unitarias, utiliza JUnit 5 y ejecuta los tests con mvn test.
+**GET** `/api/geolocation/{ip}`: Obtiene la información de geolocalización para una dirección IP específica.
 
-Recomendaciones:
-- Utiliza un entorno de desarrollo integrado (IDE) compatible con Spring Boot, como IntelliJ IDEA o Eclipse, para una experiencia óptima.
+**Ejemplo de uso:**
+curl -X GET http://localhost:8080/api/geolocation/8.8.8.8
+
+
+
+GET /statistics/average-distance: Obtiene la distancia promedio.
+
+**Ejemplo de uso:**
+curl -X GET http://localhost:8080/statistics/average-distance
+
+
+
+GET /statistics/max-distance: Obtiene la distancia máxima.
+
+**Ejemplo de uso:**
+curl -X GET http://localhost:8080/statistics/max-distance
+
+
+
+GET /statistics/min-distance: Obtiene la distancia mínima.
+
+
+**Ejemplo de uso:**
+curl -X GET http://localhost:8080/statistics/min-distance
+
+
+
+### Construcción del Proyecto
+Clona este repositorio.
+
+git clone https://github.com/RichardHernandezParrao/geolocalizacion-challenge.git
+cd geolocalizacion-challenge
+
+
+Construye el proyecto usando Maven.
+mvn clean package -DskipTests
+
+
+### Docker
+Crear la Imagen Docker
+Para crear una imagen Docker del proyecto, asegúrate de tener Docker instalado y ejecuta el siguiente comando en la raíz del proyecto donde se encuentra el Dockerfile.
+
+
+docker build -t geolocalizacion:latest .
+
+Ejecutar el Contenedor Docker
+Una vez creada la imagen, puedes ejecutar el contenedor con el siguiente comando:
+
+docker run -p 8080:8080 geolocalizacion:latest
+
+Esto expondrá la aplicación en el puerto 8080.
+
+
+### Acceso a la Aplicación
+Una vez que el contenedor esté en ejecución, puedes acceder a la aplicación en http://localhost:8080.
+
+### Notas Adicionales
+Asegúrate de que el puerto 8080 esté disponible en tu máquina local antes de ejecutar el contenedor.
+Para más detalles sobre cómo usar los servicios, revisa los endpoints proporcionados anteriormente.
