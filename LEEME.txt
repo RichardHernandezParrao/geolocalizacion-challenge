@@ -10,8 +10,7 @@ Este proyecto es una aplicación Spring Boot que proporciona servicios de geoloc
 
 ## Endpoints
 
-
-### Geolocalización
+## Geolocalización
 
 **GET** `/api/geolocation/{ip}`: Obtiene la información de geolocalización para una dirección IP específica.
 
@@ -34,7 +33,7 @@ GET /statistics/min-distance: Obtiene la distancia mínima.
 curl -X GET http://localhost:8080/statistics/min-distance
 
 
-### Construcción del Proyecto
+## Construcción del Proyecto
 Clona este repositorio.
 
 git clone https://github.com/RichardHernandezParrao/geolocalizacion-challenge.git
@@ -44,7 +43,7 @@ Construye el proyecto usando Maven.
 mvn clean package -DskipTests
 
 
-### Docker
+## Docker
 
 Crear la Imagen Docker
 Para crear una imagen Docker del proyecto, asegúrate de tener Docker instalado y ejecuta el siguiente comando en la raíz del proyecto donde se encuentra el Dockerfile.
@@ -59,12 +58,12 @@ docker run -p 8080:8080 geolocalizacion:latest
 Esto expondrá la aplicación en el puerto 8080.
 
 
-### Acceso a la Aplicación
+## Acceso a la Aplicación
 
 Una vez que el contenedor esté en ejecución, puedes acceder a la aplicación en http://localhost:8080.
 
 
-### Notas Adicionales
+## Notas Adicionales
 
 Asegúrate de que el puerto 8080 esté disponible en tu máquina local antes de ejecutar el contenedor.
 Para más detalles sobre cómo usar los servicios, revisa los endpoints proporcionados anteriormente.
