@@ -4,7 +4,7 @@ Este proyecto es una aplicación Spring Boot que proporciona servicios de geoloc
 
 ## Requisitos
 
-- Java 11 o superior
+- Java 17 o superior
 - Maven
 - Docker (opcional)
 
