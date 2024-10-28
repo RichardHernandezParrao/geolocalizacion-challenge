@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 public class CountryResponseDTO {
-	
+
 	@JsonProperty("timezones")
 	private List<String> timezones;
 

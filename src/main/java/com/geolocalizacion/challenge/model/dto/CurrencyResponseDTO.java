@@ -4,39 +4,37 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Map;
 
 public class CurrencyResponseDTO {
-    
-    @JsonProperty("base")
-    private String base;
-    
-    @JsonProperty("date")
-    private String date;
-    
-    @JsonProperty("rates")
-    private Map<String, Double> rates;
 
-    // Getters y Setters
+	@JsonProperty("base")
+	private String base;
 
-    public String getBase() {
-        return base;
-    }
+	@JsonProperty("date")
+	private String date;
 
-    public void setBase(String base) {
-        this.base = base;
-    }
+	@JsonProperty("rates")
+	private Map<String, Double> rates;
 
-    public String getDate() {
-        return date;
-    }
+	public String getBase() {
+		return base;
+	}
 
-    public void setDate(String date) {
-        this.date = date;
-    }
+	public void setBase(String base) {
+		this.base = base;
+	}
 
-    public Map<String, Double> getRates() {
-        return rates;
-    }
+	public String getDate() {
+		return date;
+	}
 
-    public void setRates(Map<String, Double> rates) {
-        this.rates = rates;
-    }
+	public void setDate(String date) {
+		this.date = date;
+	}
+
+	public Map<String, Double> getRates() {
+		return rates;
+	}
+
+	public void setRates(Map<String, Double> rates) {
+		this.rates = rates;
+	}
 }

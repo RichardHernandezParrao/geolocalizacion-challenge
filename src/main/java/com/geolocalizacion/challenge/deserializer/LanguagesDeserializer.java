@@ -9,12 +9,12 @@ import java.io.IOException;
 
 public class LanguagesDeserializer extends JsonDeserializer<String[]> {
 
-    @Override
-    public String[] deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
-        String languages = p.getText();
-        if (languages == null || languages.isEmpty()) {
-            return new String[0];
-        }
-        return languages.split(",");
-    }
+	@Override
+	public String[] deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+		String languages = p.getText();
+		if (languages == null || languages.isEmpty()) {
+			return new String[0];
+		}
+		return languages.split(",");
+	}
 }
