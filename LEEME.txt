@@ -6,11 +6,9 @@ Este proyecto es una aplicación Spring Boot que proporciona servicios de geoloc
 
 - Java 17 o superior
 - Maven
-- Docker (opcional)
+- Docker
 
 ## Endpoints
-
-## Geolocalización
 
 **GET** `/api/geolocation/{ip}`: Obtiene la información de geolocalización para una dirección IP específica.
 
