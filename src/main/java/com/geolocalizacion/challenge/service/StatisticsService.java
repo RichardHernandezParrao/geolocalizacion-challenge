@@ -2,6 +2,8 @@ package com.geolocalizacion.challenge.service;
 
 import com.geolocalizacion.challenge.model.DistanceStatistic;
 import com.geolocalizacion.challenge.repository.StatisticsRepository;
+
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -18,6 +20,7 @@ public class StatisticsService {
 		this.statisticsRepository = statisticsRepository;
 	}
 
+	@Async
 	public void recordDistance(String country, double distance) {
 		List<DistanceStatistic> statistics = statisticsRepository.findAll();
 		Optional<DistanceStatistic> existingStat = statistics.stream()
