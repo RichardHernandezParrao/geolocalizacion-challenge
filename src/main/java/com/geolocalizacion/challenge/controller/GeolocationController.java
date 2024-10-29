@@ -14,6 +14,6 @@ public class GeolocationController {
 
 	@GetMapping("/{ip}")
 	public GeolocationResponseDTO getGeolocalizacion(@PathVariable String ip) {
-		return geolocationService.getDataByIP(ip);
+		return geolocationService.getGeolocationDataByIP(ip);
 	}
 }

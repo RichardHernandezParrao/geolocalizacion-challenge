@@ -15,21 +15,40 @@ Este proyecto es una aplicación Spring Boot que proporciona servicios de geoloc
 **Ejemplo de uso:**
 curl -X GET http://localhost:8080/api/geolocation/8.8.8.8
 
-GET /statistics/average-distance: Obtiene la distancia promedio.
+Cálculo de Distancia entre dos Puntos
+Para calcular la distancia entre dos puntos en la superficie de la Tierra utilizando sus coordenadas geográficas (latitud y longitud). 
+El método implementa la fórmula del Haversine, que proporciona una forma precisa de medir la distancia entre dos puntos en una esfera, teniendo en cuenta la curvatura de la Tierra.
+
+Detalles del Método
+Parámetros de Entrada:
+
+latitude1, longitude1: Coordenadas del primer punto.
+latitude2, longitude2: Coordenadas del segundo punto.
+
+Cálculos:
+
+Diferencias de Latitud y Longitud: Se convierten a radianes para los cálculos trigonométricos.
+
+Valor de Haversine: Se calcula utilizando la fórmula, que combina el seno y el coseno de las diferencias de latitud y longitud.
+
+Ángulo Central: Se determina a partir del valor de Haversine utilizando la función atan2, que permite obtener el ángulo en el rango correcto.
+
+Resultado: La distancia se calcula multiplicando el ángulo central por el radio de la Tierra, devolviendo el resultado en kilómetros.
+
+**GET** /statistics/average-distance: Obtiene la distancia promedio.
 
 **Ejemplo de uso:**
 curl -X GET http://localhost:8080/statistics/average-distance
 
-GET /statistics/max-distance: Obtiene la distancia máxima.
+**GET** /statistics/max-distance: Obtiene la distancia máxima.
 
 **Ejemplo de uso:**
 curl -X GET http://localhost:8080/statistics/max-distance
 
-GET /statistics/min-distance: Obtiene la distancia mínima.
+**GET** /statistics/min-distance: Obtiene la distancia mínima.
 
 **Ejemplo de uso:**
 curl -X GET http://localhost:8080/statistics/min-distance
-
 
 ## Construcción del Proyecto
 Clona este repositorio.
@@ -39,7 +58,6 @@ cd geolocalizacion-challenge
 
 Construye el proyecto usando Maven.
 mvn clean package -DskipTests
-
 
 ## Docker
 
@@ -55,11 +73,9 @@ docker run -p 8080:8080 geolocalizacion:latest
 
 Esto expondrá la aplicación en el puerto 8080.
 
-
 ## Acceso a la Aplicación
 
 Una vez que el contenedor esté en ejecución, puedes acceder a la aplicación en http://localhost:8080.
-
 
 ## Notas Adicionales
 

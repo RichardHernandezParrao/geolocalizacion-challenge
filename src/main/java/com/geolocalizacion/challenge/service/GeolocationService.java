@@ -14,9 +14,16 @@ import java.text.DecimalFormat;
 public class GeolocationService {
 
 	private static final int EARTH_RADIUS_KM = 6371;
-	private final String API_GEOLOCATION_URL;
-	private final String API_COUNTRY_URL;
-	private final String API_FIXER_URL;
+	private static final String AMPERSAND = "&";
+	private static final String SYMBOLS = "symbols";
+	private static final String EQUALS = "=";
+	private static final String COMMA = ",";
+	private static final String USD = "USD";
+	private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.####");
+
+	private final String apiGeolocationUrl;
+	private final String apiCountryUrl;
+	private final String apiFixerUrl;
 
 	private final LocationRepository locationRepository;
 	private final StatisticsService statisticsService;
@@ -28,35 +35,37 @@ public class GeolocationService {
 		this.locationRepository = locationRepository;
 		this.statisticsService = statisticsService;
 		this.restTemplate = new RestTemplate();
-		this.API_GEOLOCATION_URL = apiGeolocationUrl;
-		this.API_COUNTRY_URL = apiCountryUrl;
-		this.API_FIXER_URL = apiFixerUrl;
+		this.apiGeolocationUrl = apiGeolocationUrl;
+		this.apiCountryUrl = apiCountryUrl;
+		this.apiFixerUrl = apiFixerUrl;
 	}
 
-	public GeolocationResponseDTO getDataByIP(String ip) {
-		String geolocationUrl = API_GEOLOCATION_URL + ip;
-		GeolocationResponseDTO geolocation = restTemplate.getForObject(geolocationUrl, GeolocationResponseDTO.class);
+	public GeolocationResponseDTO getGeolocationDataByIP(String ip) {
+		String geolocationUrl = apiGeolocationUrl + ip;
+		GeolocationResponseDTO geolocationResponse = restTemplate.getForObject(geolocationUrl,
+				GeolocationResponseDTO.class);
 
-		if (geolocation == null || geolocation.getCountryName() == null || geolocation.getCountryCode2() == null) {
+		if (geolocationResponse == null || geolocationResponse.getCountryName() == null
+				|| geolocationResponse.getCountryCode2() == null) {
 			throw new RuntimeException("Could not retrieve valid geolocation information.");
 		}
 
-		enrichGeolocationWithCountryData(geolocation);
-		enrichGeolocationWithCurrencyData(geolocation);
+		enrichGeolocationWithCountryData(geolocationResponse);
+		enrichGeolocationWithCurrencyData(geolocationResponse);
 
-		double[] coordinatesBA = locationRepository.findBuenosAires();
-		double distance = calculateDistance(coordinatesBA[0], coordinatesBA[1], geolocation.getLatitude(),
-				geolocation.getLongitude());
-		geolocation.setDistanceFromBuenosAires(distance);
+		double[] buenosAiresCoordinates = locationRepository.findBuenosAires();
+		double distanceToBuenosAires = calculateDistance(buenosAiresCoordinates[0], buenosAiresCoordinates[1],
+				geolocationResponse.getLatitude(), geolocationResponse.getLongitude());
+		geolocationResponse.setDistanceToBuenosAiresInKm(distanceToBuenosAires);
 
-		statisticsService.recordDistance(geolocation.getCountryName(), distance);
+		statisticsService.recordDistance(geolocationResponse.getCountryName(), distanceToBuenosAires);
 
-		return geolocation;
+		return geolocationResponse;
 	}
 
 	private void enrichGeolocationWithCountryData(GeolocationResponseDTO geolocation) {
 		String countryCode = geolocation.getCountryCode2();
-		String countryApiUrl = API_COUNTRY_URL + countryCode;
+		String countryApiUrl = apiCountryUrl + countryCode;
 
 		CountryResponseDTO[] countryResponse = restTemplate.getForObject(countryApiUrl, CountryResponseDTO[].class);
 
@@ -67,7 +76,7 @@ public class GeolocationService {
 
 	private void enrichGeolocationWithCurrencyData(GeolocationResponseDTO geolocation) {
 		String currencyCode = geolocation.getCurrency().getCode();
-		String currencyApiUrl = API_FIXER_URL + "&symbols=" + currencyCode + ",USD";
+		String currencyApiUrl = apiFixerUrl + AMPERSAND + SYMBOLS + EQUALS + currencyCode + COMMA + USD;
 
 		CurrencyResponseDTO currencyResponse = restTemplate.getForObject(currencyApiUrl, CurrencyResponseDTO.class);
 
@@ -76,8 +85,7 @@ public class GeolocationService {
 			if (localCurrencyRate != null) {
 				Double exchangeRateToUsd = 1 / localCurrencyRate;
 
-				DecimalFormat df = new DecimalFormat("#.####");
-				String formattedExchangeRate = df.format(exchangeRateToUsd);
+				String formattedExchangeRate = DECIMAL_FORMAT.format(exchangeRateToUsd);
 
 				geolocation.setExchangeRate(Double.parseDouble(formattedExchangeRate));
 			} else {
@@ -86,12 +94,16 @@ public class GeolocationService {
 		}
 	}
 
-	private double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
-		double latDist = Math.toRadians(lat2 - lat1);
-		double lonDist = Math.toRadians(lon2 - lon1);
-		double a = Math.sin(latDist / 2) * Math.sin(latDist / 2) + Math.cos(Math.toRadians(lat1))
-				* Math.cos(Math.toRadians(lat2)) * Math.sin(lonDist / 2) * Math.sin(lonDist / 2);
-		double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-		return EARTH_RADIUS_KM * c;
+	public double calculateDistance(double latitude1, double longitude1, double latitude2, double longitude2) {
+		double latitudeDifference = Math.toRadians(latitude2 - latitude1);
+		double longitudeDifference = Math.toRadians(longitude2 - longitude1);
+
+		double haversineValue = Math.sin(latitudeDifference / 2) * Math.sin(latitudeDifference / 2)
+				+ Math.cos(Math.toRadians(latitude1)) * Math.cos(Math.toRadians(latitude2))
+						* Math.sin(longitudeDifference / 2) * Math.sin(longitudeDifference / 2);
+
+		double centralAngle = 2 * Math.atan2(Math.sqrt(haversineValue), Math.sqrt(1 - haversineValue));
+
+		return EARTH_RADIUS_KM * centralAngle;
 	}
 }

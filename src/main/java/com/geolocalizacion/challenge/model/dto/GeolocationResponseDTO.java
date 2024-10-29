@@ -29,7 +29,7 @@ public class GeolocationResponseDTO {
 
 	private double longitude;
 
-	private double distanceFromBuenosAires;
+	private double estimatedDistanceToBuenosAiresInKm;
 
 	private Double exchangeRate;
 
@@ -93,12 +93,12 @@ public class GeolocationResponseDTO {
 		return longitude;
 	}
 
-	public double getDistanceFromBuenosAires() {
-		return distanceFromBuenosAires;
+	public double getEstimatedDistanceToBuenosAiresInKm () {
+		return estimatedDistanceToBuenosAiresInKm;
 	}
 
-	public void setDistanceFromBuenosAires(double distanceFromBuenosAires) {
-		this.distanceFromBuenosAires = distanceFromBuenosAires;
+	public void setDistanceToBuenosAiresInKm(double estimatedDistanceToBuenosAiresInKm) {
+		this.estimatedDistanceToBuenosAiresInKm = estimatedDistanceToBuenosAiresInKm;
 	}
 
 	public Double getExchangeRate() {
