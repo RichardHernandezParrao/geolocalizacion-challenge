@@ -79,5 +79,5 @@ Una vez que el contenedor esté en ejecución, puedes acceder a la aplicación e
 
 ## Notas Adicionales
 
-Asegúrate de que el puerto 8080 esté disponible en tu máquina local antes de ejecutar el contenedor.
-Para más detalles sobre cómo usar los servicios, revisa los endpoints proporcionados anteriormente.
+Verificar de que el puerto 8080 esté disponible en tu máquina local antes de ejecutar el contenedor.
+En la clase GeolocationController, se implementa un sistema de limitación de solicitudes por IP utilizando ExpiringMap, permitiendo hasta 1000 peticiones por minuto. Además, emplea caché con @Cacheable para almacenar resultados y mejorar la eficiencia en solicitudes repetidas, mientras que @Async permite procesar las solicitudes de manera asíncrona, mejorando la capacidad de respuesta bajo carga. En caso de errores, el método fallbackMethod proporciona un mensaje al usuario.
